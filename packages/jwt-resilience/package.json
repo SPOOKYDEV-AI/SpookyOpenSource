@@ -36,5 +36,18 @@
   "engines": {
     "node": ">=20"
   },
-  "types": "./src/index.d.ts"
+  "types": "./src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SPOOKYDEV-AI/SpookyOpenSource.git",
+    "directory": "packages/jwt-resilience"
+  },
+  "homepage": "https://github.com/SPOOKYDEV-AI/SpookyOpenSource/tree/main/packages/jwt-resilience#readme",
+  "bugs": {
+    "url": "https://github.com/SPOOKYDEV-AI/SpookyOpenSource/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
 }
