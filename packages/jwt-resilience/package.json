@@ -1,0 +1,33 @@
+{
+  "name": "@spookyopensource/jwt-resilience",
+  "version": "0.1.0",
+  "description": "Provider-agnostic JWT refresh, recovery, readiness and Windows worker utilities for long-running Node.js services.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./windows-task-refresh": "./src/windows-task-refresh.js"
+  },
+  "files": [
+    "src",
+    "windows",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "node --check src/index.js && node --check src/jwt.js && node --check src/file-token-store.js && node --check src/token-manager.js && node --check src/resilient-fetch.js && node --check src/auth-supervisor.js && node --check src/readiness.js && node --check src/windows-task-refresh.js"
+  },
+  "keywords": [
+    "jwt",
+    "authentication",
+    "refresh-token",
+    "resilience",
+    "retry",
+    "readiness",
+    "circuit-breaker"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
