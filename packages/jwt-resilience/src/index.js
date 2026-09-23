@@ -10,3 +10,4 @@ export { evaluateAuthReadiness } from "./readiness.js";
 export {
   createWindowsTaskRefresher,
 } from "./windows-task-refresh.js";
+export { AuthRecoveryController } from "./recovery-controller.js";
