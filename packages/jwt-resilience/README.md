@@ -102,6 +102,47 @@ See [`windows/Register-InteractiveRefreshWorker.ps1`](windows/Register-Interacti
 
 The worker script itself is application-specific: it should refresh your session/token and write the result to the same token store used by `JwtTokenManager`.
 
+### Worker state contract
+
+`createWindowsTaskRefresher()` watches a small JSON state file written by your worker:
+
+```json
+{
+  "status": "success",
+  "startedAt": "2026-09-23T10:00:00.000Z",
+  "finishedAt": "2026-09-23T10:00:03.000Z",
+  "code": null,
+  "error": null
+}
+```
+
+Supported terminal states are `success`, `failed`, and `human-required`. On success, the refresher calls your `readToken()` callback to load the token that the worker persisted.
+
+Example wiring:
+
+```js
+import {
+  FileTokenStore,
+  JwtTokenManager,
+  createWindowsTaskRefresher,
+} from "@spookyopensource/jwt-resilience";
+
+const store = new FileTokenStore({
+  file: ".runtime/auth.json",
+});
+
+const refresh = createWindowsTaskRefresher({
+  taskName: "MyJwtRefreshWorker",
+  stateFile: ".runtime/auth-worker.json",
+  readToken: () => store.load(),
+});
+
+const manager = new JwtTokenManager({
+  store,
+  refresh,
+});
+```
+
 ## Scope
 
 This package contains generic resilience logic only. It intentionally does **not** include private provider endpoints, cookies, production credentials, or browser profiles.
