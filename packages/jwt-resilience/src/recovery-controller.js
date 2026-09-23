@@ -142,26 +142,27 @@ export class AuthRecoveryController {
           primaryError,
         });
 
-        // The fallback may persist a token externally (for example via a
-        // Windows interactive worker). Reload or refresh the manager after it.
-        if (typeof result === "string" || result?.token) {
-          const refresh = this.tokenManager.refresh;
-          if (typeof refresh === "function") {
-            const previous = this.tokenManager.refresh;
-            this.tokenManager.refresh = async () => result;
-            try {
-              await this.tokenManager.getToken({ forceRefresh: true });
-            } finally {
-              this.tokenManager.refresh = previous;
-            }
-          }
-        } else {
-          // For file-backed stores, recreating the manager is often not
-          // necessary: applications can expose reloadFromStore() or make
-          // verify() read the shared persisted auth state.
-          await this.tokenManager.getToken({
-            forceRefresh: true,
+        // A worker may either return the token directly or persist it
+        // into the shared store. Both paths are explicit and side-effect safe.
+        if (
+          typeof result === "string" ||
+          result?.token
+        ) {
+          this.tokenManager.adoptToken(result, {
+            source: "fallback-refresh",
           });
+        } else {
+          const reloaded =
+            this.tokenManager.reloadFromStore?.();
+
+          if (!reloaded) {
+            const error = new Error(
+              "Fallback refresh completed but no valid token was returned or persisted"
+            );
+            error.code =
+              "AUTH_FALLBACK_TOKEN_MISSING";
+            throw error;
+          }
         }
 
         if (await this.isHealthy()) {
