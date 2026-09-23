@@ -93,3 +93,58 @@ test("concurrent recover callers share one recovery", async () => {
   assert.equal(calls, 1);
   assert.ok(results.every(item => item.ok));
 });
+
+test("recover reloads a token persisted by an external worker", async () => {
+  let stored = null;
+  let directCalls = 0;
+
+  const store = {
+    load() {
+      return stored;
+    },
+    save(entry) {
+      stored = { ...entry };
+    },
+    clear() {
+      stored = null;
+    },
+  };
+
+  const manager = new JwtTokenManager({
+    store,
+    refresh: async () => {
+      directCalls += 1;
+      throw Object.assign(
+        new Error("direct refresh unavailable"),
+        { code: "AUTH_TRANSIENT" }
+      );
+    },
+  });
+
+  const recovery = new AuthRecoveryController({
+    tokenManager: manager,
+    fallbackRefresh: async () => {
+      const value = token();
+      store.save({
+        token: value,
+        expiresAt:
+          Date.now() + 60 * 60_000,
+        updatedAt: Date.now(),
+        source: "external-worker",
+      });
+    },
+  });
+
+  const result = await recovery.recover();
+
+  assert.equal(result.ok, true);
+  assert.equal(
+    result.path,
+    "fallback-refresh"
+  );
+  assert.equal(directCalls, 1);
+  assert.equal(
+    manager.status().source,
+    "external-worker"
+  );
+});
