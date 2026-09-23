@@ -1,0 +1,47 @@
+{
+  "name": "@spookyopensource/async-work-control",
+  "version": "0.1.0",
+  "description": "Provider-agnostic keyed serialization, bounded concurrency and sliding-window rate control for Node.js async workloads.",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "node --check src/index.js && node --check src/keyed-queue.js && node --check src/concurrency-gate.js && node --check src/sliding-window-limiter.js"
+  },
+  "keywords": [
+    "async",
+    "concurrency",
+    "queue",
+    "rate-limit",
+    "serialization",
+    "backpressure"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SPOOKYDEV-AI/SpookyOpenSource.git",
+    "directory": "packages/async-work-control"
+  },
+  "homepage": "https://github.com/SPOOKYDEV-AI/SpookyOpenSource/tree/main/packages/async-work-control#readme",
+  "bugs": {
+    "url": "https://github.com/SPOOKYDEV-AI/SpookyOpenSource/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
