@@ -11,3 +11,4 @@ export {
   createWindowsTaskRefresher,
 } from "./windows-task-refresh.js";
 export { AuthRecoveryController } from "./recovery-controller.js";
+export { AUTH_ERROR_CODES } from "./errors.js";
