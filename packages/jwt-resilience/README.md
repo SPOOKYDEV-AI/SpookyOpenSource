@@ -87,6 +87,62 @@ const response = await client.request(
 );
 ```
 
+## Explicit recovery controller
+
+`AuthRecoveryController` mirrors the production-safe recovery sequence:
+
+```text
+direct refresh
+  -> verify
+  -> success
+
+direct refresh fails
+  -> optional fallback worker
+  -> adopt returned token OR reload token persisted by worker
+  -> verify
+  -> success / degraded / auth-required
+```
+
+Only one recovery can run at a time. Concurrent callers share the same in-flight recovery.
+
+```js
+import {
+  AuthRecoveryController,
+  JwtTokenManager,
+} from "@spookyopensource/jwt-resilience";
+
+const recovery = new AuthRecoveryController({
+  tokenManager: manager,
+  fallbackRefresh: async () => {
+    // Optional: trigger your own authorized background worker.
+    // It may return { token, expiresAt, source } or persist the token
+    // into the shared store and return nothing.
+    return runMyRefreshWorker();
+  },
+  verify: async ({ auth }) => {
+    return auth.valid;
+  },
+});
+
+const result = await recovery.recover({
+  reason: "request-auth-failure",
+});
+```
+
+## Public API
+
+| Export | Purpose |
+| --- | --- |
+| `JwtTokenManager` | token state, early expiry, deduplicated refresh, token adoption/reload |
+| `FileTokenStore` | small atomic file-backed token cache |
+| `ResilientAuthClient` | bounded authenticated request replay |
+| `AuthSupervisor` | proactive auth watchdog and circuit breaker |
+| `AuthRecoveryController` | direct refresh -> fallback recovery -> verification |
+| `evaluateAuthReadiness` | make authentication part of readiness |
+| `createWindowsTaskRefresher` | invoke an interactive Windows refresh worker and wait for its state |
+| `AUTH_ERROR_CODES` | stable public error-code constants |
+
+TypeScript declarations are included with the package.
 ## 403 policy
 
 `403` is deliberately **not** treated as identical to `401`.
