@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "test": "node --test test/*.test.js",
-    "lint": "node --check src/index.js && node --check src/state-store.js && node --check src/restart-budget.js && node --check src/readiness.js && node --check src/process-utils.js && node --check src/service-supervisor.js && node --check src/safe-restart.js"
+    "lint": "node --check src/index.js && node --check src/state-store.js && node --check src/restart-budget.js && node --check src/readiness.js && node --check src/process-utils.js && node --check src/service-supervisor.js && node --check src/safe-restart.js && node --check src/errors.js"
   },
   "keywords": [
     "supervisor",
