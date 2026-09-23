@@ -2,6 +2,19 @@
 
 All notable changes to public packages are documented here.
 
+## async-work-control 0.1.0 - 2026-09-23
+
+### Added
+
+- FIFO async serialization per logical key
+- cross-key concurrency without global blocking
+- bounded global concurrency gate
+- abortable queued work
+- failure-safe lane and capacity cleanup
+- in-memory sliding-window rate limiter
+- remaining-budget and retry-delay introspection
+- TypeScript declarations and regression tests
+
 ## safe-service-supervisor 0.1.0 - 2026-09-23
 
 ### Added

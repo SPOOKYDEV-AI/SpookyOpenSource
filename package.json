@@ -10,7 +10,7 @@
     "lint": "npm run lint --workspaces --if-present",
     "validate": "npm run lint && npm test && npm run safety:check && npm run pack:check",
     "safety:check": "node scripts/check-public-safety.js",
-    "pack:check": "npm pack --workspace packages/jwt-resilience --dry-run && npm pack --workspace packages/safe-service-supervisor --dry-run"
+    "pack:check": "npm pack --workspace packages/jwt-resilience --dry-run && npm pack --workspace packages/safe-service-supervisor --dry-run && npm pack --workspace packages/async-work-control --dry-run"
   },
   "engines": {
     "node": ">=20"
