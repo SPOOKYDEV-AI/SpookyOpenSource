@@ -1,0 +1,49 @@
+{
+  "name": "@spookyopensource/safe-service-supervisor",
+  "version": "0.1.0",
+  "description": "Generation-aware process supervision, canonical readiness, safe restart and restart-storm protection for long-running Node.js services.",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "examples",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "node --check src/index.js && node --check src/state-store.js && node --check src/restart-budget.js && node --check src/readiness.js && node --check src/process-utils.js && node --check src/service-supervisor.js && node --check src/safe-restart.js"
+  },
+  "keywords": [
+    "supervisor",
+    "process-manager",
+    "readiness",
+    "safe-restart",
+    "circuit-breaker",
+    "recovery",
+    "health-check"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SPOOKYDEV-AI/SpookyOpenSource.git",
+    "directory": "packages/safe-service-supervisor"
+  },
+  "homepage": "https://github.com/SPOOKYDEV-AI/SpookyOpenSource/tree/main/packages/safe-service-supervisor#readme",
+  "bugs": {
+    "url": "https://github.com/SPOOKYDEV-AI/SpookyOpenSource/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
