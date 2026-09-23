@@ -40,6 +40,21 @@ See [`packages/safe-service-supervisor`](packages/safe-service-supervisor).
 
 Architecture: [safe-service-supervisor](docs/safe-service-supervisor-architecture.md).
 
+### `async-work-control`
+
+Dependency-free async workload controls for Node.js services:
+
+- FIFO serialization per logical key
+- unrelated keys remain concurrent
+- bounded global concurrency
+- abortable waiters
+- sliding-window request limiting
+- retry-delay introspection
+- queue/gate observability
+- failure-safe cleanup so rejected tasks do not poison future work
+
+See [`packages/async-work-control`](packages/async-work-control).
+
 Useful references:
 
 - [Architecture](docs/jwt-resilience-architecture.md)
