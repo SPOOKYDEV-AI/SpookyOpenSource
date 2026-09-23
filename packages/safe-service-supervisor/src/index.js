@@ -17,3 +17,4 @@ export {
   safeRestart,
   waitForGenerationReady,
 } from "./safe-restart.js";
+export { SUPERVISOR_ERROR_CODES } from "./errors.js";
