@@ -1,0 +1,16 @@
+{
+  "name": "spooky-open-source",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm test --workspace packages/jwt-resilience",
+    "lint": "npm run lint --workspace packages/jwt-resilience",
+    "validate": "npm run lint && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
