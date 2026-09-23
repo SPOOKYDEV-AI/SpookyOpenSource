@@ -61,7 +61,14 @@ export class FileTokenStore {
       }
     );
 
-    renameSync(tmp, this.file);
+    try {
+      renameSync(tmp, this.file);
+    } catch (error) {
+      // Windows may reject replacing an existing destination with rename().
+      // Fall back to remove + rename while still never writing partial JSON.
+      rmSync(this.file, { force: true });
+      renameSync(tmp, this.file);
+    }
   }
 
   clear() {
