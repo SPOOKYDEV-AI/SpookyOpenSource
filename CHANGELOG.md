@@ -2,7 +2,20 @@
 
 All notable changes to public packages are documented here.
 
-## 0.1.0 - 2026-09-23
+## safe-service-supervisor 0.1.0 - 2026-09-23
+
+### Added
+
+- generation-aware Boot IDs
+- canonical readiness with PID/generation validation
+- atomic supervisor state
+- process drain and escalation
+- verified safe restart
+- serialized auto-recovery
+- rolling restart budget and circuit breaker
+- regression tests for stale generations and recovery deduplication
+
+## jwt-resilience 0.1.0 - 2026-09-23
 
 ### Added
 
