@@ -137,6 +137,63 @@ export class JwtTokenManager {
     this.store?.clear?.();
   }
 
+  adoptToken(result, {
+    source = "adopted",
+    persist = true,
+  } = {}) {
+    const token =
+      typeof result === "string"
+        ? result.trim()
+        : String(result?.token || "").trim();
+
+    if (!token || token.length < 20) {
+      const error = new Error(
+        "Cannot adopt an invalid token"
+      );
+      error.code = "AUTH_TOKEN_INVALID";
+      throw error;
+    }
+
+    const parsedExpiry = parseJwtExpiryMs(token);
+    const explicitExpiry = Number(
+      result?.expiresAt
+    );
+    const expiresAt =
+      Number.isFinite(explicitExpiry) &&
+      explicitExpiry > 0
+        ? explicitExpiry
+        : parsedExpiry ||
+          Date.now() + this.fallbackTtlMs;
+
+    this.cached = {
+      token,
+      expiresAt,
+      updatedAt:
+        Number(result?.updatedAt) ||
+        Date.now(),
+      source: String(
+        result?.source || source
+      ),
+    };
+
+    if (persist) {
+      this.store?.save?.(this.cached);
+    }
+
+    return token;
+  }
+
+  reloadFromStore() {
+    const loaded = this.store?.load?.() || null;
+
+    if (!loaded?.token) {
+      return false;
+    }
+
+    this.cached = loaded;
+    return !this.isExpired(loaded);
+  }
+
   effectiveSkewMs(entry) {
     const expiresAt =
       Number(entry?.expiresAt) || 0;
@@ -187,27 +244,18 @@ export class JwtTokenManager {
       throw error;
     }
 
-    const parsedExpiry = parseJwtExpiryMs(token);
-    const explicitExpiry = Number(
-      result?.expiresAt
+    return this.adoptToken(
+      typeof result === "string"
+        ? {
+            token,
+            source: "refresh",
+          }
+        : {
+            ...result,
+            token,
+            source:
+              result?.source || "refresh",
+          }
     );
-    const expiresAt =
-      Number.isFinite(explicitExpiry) &&
-      explicitExpiry > 0
-        ? explicitExpiry
-        : parsedExpiry ||
-          Date.now() + this.fallbackTtlMs;
-
-    this.cached = {
-      token,
-      expiresAt,
-      updatedAt: Date.now(),
-      source: String(
-        result?.source || "refresh"
-      ),
-    };
-
-    this.store?.save?.(this.cached);
-    return token;
   }
 }
