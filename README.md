@@ -38,6 +38,8 @@ A generation-aware process supervisor for long-running services:
 
 See [`packages/safe-service-supervisor`](packages/safe-service-supervisor).
 
+Architecture: [safe-service-supervisor](docs/safe-service-supervisor-architecture.md).
+
 Useful references:
 
 - [Architecture](docs/jwt-resilience-architecture.md)
