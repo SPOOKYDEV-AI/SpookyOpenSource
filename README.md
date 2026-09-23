@@ -22,6 +22,22 @@ A provider-agnostic JWT reliability toolkit for long-running Node.js services:
 
 See [`packages/jwt-resilience`](packages/jwt-resilience).
 
+### `safe-service-supervisor`
+
+A generation-aware process supervisor for long-running services:
+
+- unique Boot ID per supervisor generation
+- canonical readiness instead of PID-only health
+- PID/Boot ID stale-process rejection
+- graceful process drain with escalation
+- verified safe restart
+- serialized recovery lane
+- exponential backoff
+- rolling restart budget + circuit breaker
+- atomic runtime state
+
+See [`packages/safe-service-supervisor`](packages/safe-service-supervisor).
+
 Useful references:
 
 - [Architecture](docs/jwt-resilience-architecture.md)
