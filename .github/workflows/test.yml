@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  node:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,3 +14,19 @@ jobs:
           node-version: 22
       - run: npm install --ignore-scripts
       - run: npm run validate
+
+  powershell:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse Windows worker script
+        shell: powershell
+        run: |
+          $path = 'packages/jwt-resilience/windows/Register-InteractiveRefreshWorker.ps1'
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile($path, [ref]$tokens, [ref]$errors) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
