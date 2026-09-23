@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "test": "node --test test/*.test.js",
-    "lint": "node --check src/index.js && node --check src/jwt.js && node --check src/file-token-store.js && node --check src/token-manager.js && node --check src/resilient-fetch.js && node --check src/auth-supervisor.js && node --check src/readiness.js && node --check src/windows-task-refresh.js"
+    "lint": "node --check src/index.js && node --check src/jwt.js && node --check src/file-token-store.js && node --check src/token-manager.js && node --check src/resilient-fetch.js && node --check src/auth-supervisor.js && node --check src/readiness.js && node --check src/windows-task-refresh.js && node --check src/recovery-controller.js"
   },
   "keywords": [
     "jwt",
