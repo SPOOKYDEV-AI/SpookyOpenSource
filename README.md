@@ -22,6 +22,13 @@ A provider-agnostic JWT reliability toolkit for long-running Node.js services:
 
 See [`packages/jwt-resilience`](packages/jwt-resilience).
 
+Useful references:
+
+- [Architecture](docs/jwt-resilience-architecture.md)
+- [Integration checklist](docs/integration-checklist.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
+
 ## Security
 
 This repository intentionally contains **no production tokens, cookies, private endpoints, browser profiles, account IDs, or provider-specific credentials**.
