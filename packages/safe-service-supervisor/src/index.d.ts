@@ -192,3 +192,10 @@ export function safeRestart(options: {
   requestId: string;
   state: any;
 }>;
+
+export const SUPERVISOR_ERROR_CODES: Readonly<{
+  STARTUP_NOT_READY: "STARTUP_NOT_READY";
+  DRAIN_INCOMPLETE: "DRAIN_INCOMPLETE";
+  RESTART_NOT_READY: "RESTART_NOT_READY";
+  RESTART_CIRCUIT_OPEN: "RESTART_CIRCUIT_OPEN";
+}>;
